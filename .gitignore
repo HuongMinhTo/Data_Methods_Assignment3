@@ -1,0 +1,18 @@
+# CRSP data is licensed through WRDS and is never committed
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Login details stay on each computer
+.pgpass
+.Renviron
+
+# R and RStudio
+.Rhistory
+.RData
+.Rproj.user/
+
+# System and Office temporary files
+.DS_Store
+~$*
