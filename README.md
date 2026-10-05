@@ -13,14 +13,3 @@ Group replication of Fama, E. F. and MacBeth, J. D. (1973), "Risk, Return, and E
 | `output/` | Tables and figures for the report |
 | `data/raw/`, `data/processed/` | CRSP extracts and derived data, kept on our own computers and never committed |
 
-## Setup
-
-- R with the tidyverse.
-- Each of us pulls CRSP with our own WRDS login. No passwords go in the repository. Put the login in `~/.pgpass` on your own computer:
-
-  ```
-  wrds-pgdata.wharton.upenn.edu:9737:wrds:<username>:<password>
-  ```
-
-  then run `chmod 600 ~/.pgpass`.
-- Data files go in `data/raw/` and `data/processed/`. Git ignores both folders, so CRSP data is never pushed.
