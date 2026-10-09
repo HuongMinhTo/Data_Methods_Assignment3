@@ -16,3 +16,6 @@ data/processed/*
 # System and Office temporary files
 .DS_Store
 ~$*
+
+# Local configuration: your own WRDS user name (copy config_example.csv to config.csv)
+config.csv
