@@ -15,6 +15,21 @@ Both start from the same panel and `available.csv`, so they differ only in the r
 
 **We carry 1B forward.** Its sample (`data/processed/sample_alternative_B.csv`) is the input to Table 2.
 
+## Expected differences
+
+Before running either alternative, our plan (Section 4) set out these expectations:
+
+- **Security counts:** The “available” row is identical under both rules. Since 1B can only add securities, its count must equal or exceed 1A’s.
+- **Timing of differences:** Months without returns cluster in 1926–1934. The rules should therefore differ most in periods 1–3, whose formation and estimation windows cover those years, and much less from period 4 onwards.
+- **Comparison with the paper:** Comparing both rules with the paper’s counts for periods 1–3 (435, 576 and 607) should indicate which interpretation is closer to Fama and MacBeth.
+- **Potential effects on betas:** Securities retained only under 1B are likely to be thinly traded, so their betas may be understated and noisier (Dimson, 1979). This could move them across portfolio cut-offs, particularly in Table 2’s first panel (1934–1938).
+
+The observed results were:
+
+- **Additional securities:** Relative to 1A, 1B adds 130, 59, 18, 23, 11, 9, 19, 23 and 24 securities in periods 1–9, respectively.
+- **Periods 1–2:** As expected, the gap is largest in these periods. The 1B counts (406 and 580) are much closer to the paper’s counts (435 and 576) than the 1A counts (276 and 521).
+- **Period 4 onwards:** Contrary to our expectation, the gap does not disappear but remains at 9–24 securities because short gaps in returns still occur in later years.
+
 ## Evidence
 
 Securities meeting the requirement:
