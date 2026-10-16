@@ -1,7 +1,7 @@
 # Table 2: portfolio formation (Huong)
 #
 # For each period, estimate formation-period betas and form 20 portfolios (Fama and MacBeth, 1973, p. 615).
-#   - Sample: sample_alternative_B.csv (decision 1)
+#   - Sample: sample_final.csv (code/final/table1_sample.R, decision 1)
 #   - Beta: market model on raw returns (eq. 8), from all single-month returns in the formation period
 #   - Portfolios: ranked on beta (1 lowest, 20 highest; ties by permno). Middle 18 get int(N/20);
 #     the remainder is split between 1 and 20, with 20 taking the extra one when N is odd.
@@ -13,19 +13,19 @@
 library(tidyverse)
 library(here)
 
-index_version <- "2A"
+index_version <- "2B"
 
 # 1. Read the sample, the calendar, the panel and the market index
-sample_B <- read_csv(here("data", "processed", "sample_alternative_B.csv"))
+sample_final <- read_csv(here("data", "processed", "sample_final.csv"))
 periods <- read_csv(here("data", "processed", "periods.csv"))
 panel <- read_csv(here("data", "processed", "stock_month_panel.csv"))
 market_index <- read_csv(here("data", "processed", paste0("market_index_", index_version, ".csv")))
 
-stopifnot(nrow(distinct(sample_B, period, permno)) == nrow(sample_B),
+stopifnot(nrow(distinct(sample_final, period, permno)) == nrow(sample_final),
           nrow(distinct(market_index, year, month)) == nrow(market_index))
 
 # 2. Single-month returns of each security in its formation period, with the market return
-formation_returns <- sample_B |>
+formation_returns <- sample_final |>
   select(period, permno) |>
   inner_join(periods |> select(period, formation_start, formation_end), by = "period") |>
   inner_join(panel |> filter(single_month_ret) |> select(permno, year, month, ret),
@@ -40,7 +40,7 @@ betas <- formation_returns |>
             beta_formation = cov(ret, rm) / var(rm),
             .groups = "drop")
 
-stopifnot(nrow(betas) == nrow(sample_B), !anyNA(betas$beta_formation))
+stopifnot(nrow(betas) == nrow(sample_final), !anyNA(betas$beta_formation))
 
 #    Securities with short formation histories (kept, as 1B sets no minimum)
 betas |> count(period, short_history = n_returns < 24) |> filter(short_history)
@@ -60,7 +60,7 @@ portfolios <- betas |>
 
 #    Checks: every security in exactly one portfolio, sizes as in the paper, betas rising across portfolios
 sizes <- portfolios |> count(period, portfolio)
-stopifnot(nrow(portfolios) == nrow(sample_B),
+stopifnot(nrow(portfolios) == nrow(sample_final),
           all(sizes |> group_by(period) |> summarise(ok = all(n == portfolio_sizes(sum(n)))) |> pull(ok)),
           all(portfolios |> group_by(period, portfolio) |> summarise(lo = min(beta_formation), hi = max(beta_formation), .groups = "drop") |>
                 group_by(period) |> summarise(ok = all(lead(lo, default = Inf) >= hi)) |> pull(ok)))
