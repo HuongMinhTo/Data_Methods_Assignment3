@@ -1,6 +1,6 @@
 # Decision 1: the data-availability requirement (Table 1)
 
-11 October 2026. Based on the 1A review (Huong) and the 1B review (Niklas).
+11 October 2026; expected differences added 15 October 2026. Based on the 1A review (Huong) and the 1B review (Niklas).
 
 ## The question
 
@@ -27,8 +27,8 @@ Before running either alternative, our plan (Section 4) set out these expectatio
 The observed results were:
 
 - **Additional securities:** Relative to 1A, 1B adds 130, 59, 18, 23, 11, 9, 19, 23 and 24 securities in periods 1–9, respectively.
-- **Periods 1–2:** As expected, the gap is largest in these periods. The 1B counts (406 and 580) are much closer to the paper’s counts (435 and 576) than the 1A counts (276 and 521).
-- **Period 4 onwards:** Contrary to our expectation, the gap does not disappear but remains at 9–24 securities because short gaps in returns still occur in later years.
+- **Periods 1–3:** The gap is largest in periods 1 and 2 (130 and 59), as expected, and there the 1B counts (406 and 580) are much closer to the paper’s (435 and 576) than the 1A counts (276 and 521). Period 3’s gap (18) is smaller than in periods 4, 7, 8 and 9, so the expected pattern holds for periods 1 and 2 only. 1B is still closer to the paper in period 3 (606 against 607; 1A 588).
+- **Period 4 onwards:** The gap is much smaller than in periods 1 and 2 but stays at 9 to 24 securities rather than falling below period 3’s. Most of these securities (94 of 109 in periods 4 to 9) have at least one month without a return inside their window; the other 15 lose only their first month with a price, which never has a return.
 
 ## Evidence
 
