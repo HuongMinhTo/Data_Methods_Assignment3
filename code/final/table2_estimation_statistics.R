@@ -1,18 +1,19 @@
 # Table 2: estimation-period statistics of the 20 portfolios (Niklas)
 #
 # For each period, the portfolios formed in code/final/table2_portfolio_formation.R are followed through the
-# 5-year estimation period (Fama and MacBeth, 1973, pp. 615-617 and Table 2):
+# 5-year estimation period (Fama and MacBeth, 1973, Table 2 and the text that describes it):
 #   - beta of each security from the market model on raw returns (eq. 8) over the estimation months; the
 #     portfolio beta is the average of its securities' betas, and mean s(e_i) the average of their residual
-#     standard deviations (p. 616)
+#     standard deviations, as in the paper
 #   - the portfolio's monthly return is the equal-weighted average of its securities' single-month returns
 #     (a security without a return that month is left out of the average, plan, Section 2); its regression
 #     on the market gives r(Rp, Rm)^2, s(Rp) and s(e_p)
-#   - s(beta_p) = s(e_p) / (sqrt(n) s(Rm)) with n = 60 months (p. 617)
+#   - s(beta_p) = s(e_p) / (sqrt(n) s(Rm)) with n = 60 months, the paper's formula
 # The paper reports four estimation periods (1934-38, 1942-46, 1950-54, 1958-62: periods 2, 4, 6 and 8);
 # all nine are computed and saved, and those four are printed beside the paper's values.
 #
-# Set index_version to "2A" or "2B" to choose the market index (decision 2).
+# Set index_version to "2A" or "2B" to choose the market index (decision 2). 2B is the agreed version
+# (decisions/decision2.md); 2A is the robustness check.
 # Input:  data/processed/portfolios_<version>.csv, periods.csv, stock_month_panel.csv, market_index_<version>.csv,
 #         data/paper/table2_fama_macbeth_1973.csv (Table 2 as printed, typed from the paper)
 # Output: output/table2_<version>.csv
@@ -20,7 +21,7 @@
 library(tidyverse)
 library(here)
 
-index_version <- "2A"
+index_version <- "2B"
 
 # 1. Read the portfolios, the calendar, the panel, the market index and the paper's Table 2
 portfolios <- read_csv(here("data", "processed", paste0("portfolios_", index_version, ".csv")))
