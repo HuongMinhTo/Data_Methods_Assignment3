@@ -13,7 +13,7 @@ Both start from the same panel and `available.csv`, so they differ only in the r
 
 ## Decision
 
-**We carry 1B forward.** Its sample (`data/processed/sample_alternative_B.csv`) is the input to Table 2.
+**We carry 1B forward.** It is implemented in `code/final/table1_sample.R`, whose sample (`data/processed/sample_final.csv`) is the input to Table 2.
 
 ## Expected differences
 
@@ -44,6 +44,12 @@ Securities meeting the requirement:
 - In periods 2 to 9, 1B is within 1 to 9 securities of the paper. 1A is 0 to 55 below it.
 - Every security in 1A's sample is also in 1B's sample. 1A is therefore a strict lower bound: one missing CRSP return removes a security. Counting any non-missing return instead of single-month returns changes 1A by at most 4 securities per period, so the gap comes from returns missing in CRSP, not from the single-month filter.
 - Counting `ret_with_delisting` instead of `single_month_ret` gives the same 1A sample. The two series differ only in delisting months, and an available security is still listed at the start of its testing period.
+
+## Key review findings
+
+- **1A (reviewed by Huong):** The code applies the complete-return rule correctly and reproduces its Table 1. No errors affect the results. The review suggested checks against duplicated inputs and zero instead of `NA` for empty periods; both are now in the final pipeline.
+- **1B (reviewed by Niklas):** The code reproduces its Table 1 byte for byte, and the windows are correct. Two changes were made after the review: counting starts at each security's first month with a price, as the plan specifies (period 1 falls from 413 to 406), and the 48/36 minimum-return check is now reported.
+- **Both reviews:** Every security in 1A's sample is also in 1B's. The period-1 shortfall cannot be closed by any reading of the rule without overshooting the paper in later periods, so it is recorded as a finding.
 
 ## Period 1
 
