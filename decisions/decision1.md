@@ -1,6 +1,6 @@
 # Decision 1: the data-availability requirement (Table 1)
 
-11 October 2026. Based on the 1A review (Huong) and the 1B review (Niklas).
+11 October 2026; expected differences added 15 October 2026. Based on the 1A review (Huong) and the 1B review (Niklas).
 
 ## The question
 
@@ -13,7 +13,22 @@ Both start from the same panel and `available.csv`, so they differ only in the r
 
 ## Decision
 
-**We carry 1B forward.** Its sample (`data/processed/sample_alternative_B.csv`) is the input to Table 2.
+**We carry 1B forward.** It is implemented in `code/final/table1_sample.R`, whose sample (`data/processed/sample_final.csv`) is the input to Table 2.
+
+## Expected differences
+
+Before running either alternative, our plan (Section 4) set out these expectations:
+
+- **Security counts:** The “available” row is identical under both rules. Since 1B can only add securities, its count must equal or exceed 1A’s.
+- **Timing of differences:** Months without returns cluster in 1926–1934. The rules should therefore differ most in periods 1–3, whose formation and estimation windows cover those years, and much less from period 4 onwards.
+- **Comparison with the paper:** Comparing both rules with the paper’s counts for periods 1–3 (435, 576 and 607) should indicate which interpretation is closer to Fama and MacBeth.
+- **Potential effects on betas:** Securities retained only under 1B are likely to be thinly traded, so their betas may be understated and noisier (Dimson, 1979). This could move them across portfolio cut-offs, particularly in Table 2’s first panel (1934–1938).
+
+The observed results were:
+
+- **Additional securities:** Relative to 1A, 1B adds 130, 59, 18, 23, 11, 9, 19, 23 and 24 securities in periods 1–9, respectively.
+- **Periods 1–3:** The gap is largest in periods 1 and 2 (130 and 59), as expected, and there the 1B counts (406 and 580) are much closer to the paper’s (435 and 576) than the 1A counts (276 and 521). Period 3’s gap (18) is smaller than in periods 4, 7, 8 and 9, so the expected pattern holds for periods 1 and 2 only. 1B is still closer to the paper in period 3 (606 against 607; 1A 588).
+- **Period 4 onwards:** The gap is much smaller than in periods 1 and 2, but does not fade away: 9 to 24 securities in periods 4 to 9. Most of these securities (94 of 109 in periods 4 to 9) have at least one month without a return inside their window; the other 15 lose only their first month with a price, which never has a return.
 
 ## Evidence
 
@@ -29,6 +44,12 @@ Securities meeting the requirement:
 - In periods 2 to 9, 1B is within 1 to 9 securities of the paper. 1A is 0 to 55 below it.
 - Every security in 1A's sample is also in 1B's sample. 1A is therefore a strict lower bound: one missing CRSP return removes a security. Counting any non-missing return instead of single-month returns changes 1A by at most 4 securities per period, so the gap comes from returns missing in CRSP, not from the single-month filter.
 - Counting `ret_with_delisting` instead of `single_month_ret` gives the same 1A sample. The two series differ only in delisting months, and an available security is still listed at the start of its testing period.
+
+## Key review findings
+
+- **1A (reviewed by Huong):** The code applies the complete-return rule correctly and reproduces its Table 1. No errors affect the results. The review suggested checks against duplicated inputs and zero instead of `NA` for empty periods; both are now in the final pipeline.
+- **1B (reviewed by Niklas):** The code reproduces its Table 1 byte for byte, and the windows are correct. Two changes were made after the review: counting starts at each security's first month with a price, as the plan specifies (period 1 falls from 413 to 406), and the 48/36 minimum-return check is now reported.
+- **Both reviews:** Every security in 1A's sample is also in 1B's. The period-1 shortfall cannot be closed by any reading of the rule without overshooting the paper in later periods, so it is recorded as a finding.
 
 ## Period 1
 
