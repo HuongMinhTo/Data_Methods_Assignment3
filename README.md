@@ -21,17 +21,20 @@ needs only `code/common/` and `code/final/`; the alternative folders are kept to
 
 | Step | Script | Writes |
 |---|---|---|
-| 1 | `code/common/01_wrds_pull.R` (needs `config.csv`, copied from `config_example.csv`) | `data/raw/*.csv` |
+| 1 | `code/common/01_wrds_pull.R` (needs `config.csv`, copied from `config_example.csv`, and your WRDS password in the Postgres password file, see the script's header) | `data/raw/*.csv` |
 | 2 | `code/common/02_stock_month_panel.R` | `stock_month_panel.csv`, `periods.csv`, `available.csv` |
 | 3 | `code/common/03_riskless_rate.R` | `riskless_rate.csv` |
 | 4 | `code/final/table1_sample.R` (decision 1: rule 1B) | `sample_final.csv`, `output/table1_final.csv` |
-| 5 | Market index for decision 2 (2B) in `code/final/` | `market_index_2B.csv` |
+| 5 | `code/final/market_index.R` (decision 2: index 2B) | `market_index_2B.csv` |
 | 6 | `code/final/table2_portfolio_formation.R` | `portfolios_2B.csv`, `output/portfolio_formation_summary_2B.csv` |
 | 7 | `code/final/table2_estimation_statistics.R` | `output/table2_2B.csv` |
 | 8 | `code/final/table3_testing_portfolios.R` | `testing_portfolios_2B.csv` |
-| 9 | Table 3 regressions in `code/final/` | Table 3 |
+| 9 | `code/final/table3_regressions.R` | `output/table3_2B.csv`, `output/table3_comparison_2B.csv` (Table 3 beside the paper's) |
 
-Files without a folder are in `data/processed/`. Scripts 6 to 8 have an `index_version` switch at the top: set it to
+`code/run_all.R` sources steps 1 to 9 in this order with `echo = TRUE`, plus the Table 1 check for share codes 10 and
+11 (`code/final/table1_share_codes_10_11.R`) after step 4, so one Source reproduces everything.
+
+Files without a folder are in `data/processed/`. Scripts 6 to 9 have an `index_version` switch at the top: set it to
 `"2A"` (and run `code/decision2/alternative_A/market_index_2A.R` first) for the robustness check with CRSP's index.
 
 ## Data dictionary
@@ -62,5 +65,5 @@ All returns are monthly and in decimals (0.0143, not 1.43). `year` and `month` a
 | `portfolios_<version>.csv` | Period and issue | `period`, `permno`, `portfolio` (1 = lowest beta, 20 = highest), formation-period beta `beta_formation` |
 | `testing_portfolios_<version>.csv` | Testing month and portfolio | `period`, `year`, `month`, `portfolio`, `n_securities` (issues with a return that month), equal-weighted return `rp`, and the averages of the issues' betas `beta_p`, squared betas `beta_sq_p` and residual standard deviations `s_e_p` |
 
-**`data/paper/`**: `table2_fama_macbeth_1973.csv`, the paper's Table 2 (four estimation periods, 20 portfolios).
+**`data/paper/`**: `table2_fama_macbeth_1973.csv`, the paper's Table 2 (four estimation periods, 20 portfolios), and `table3_fama_macbeth_1973.csv`, its Table 3 (four panels, ten periods).
 
